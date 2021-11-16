@@ -3,14 +3,21 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>Chat Rooms</title>
+    <title>AppCounter</title>
 </head>
 <body>
-    What chat room would you like to enter?<br>
-    <input id="room-name-input" type="text" size="100"><br>
+<div>
+    <label for="room-name-input"> Join a counter:</label>
+    <input id="room-name-input" type="text" size="20">
     <input id="room-name-submit" type="button" value="Enter">
+</div>
+<br>
+<div>
+    <label for="room-create-submit">Create a room:</label>
+    <input id="room-create-submit" type="button" value="Create">
+</div>
 
-    <script>
+<script>
         document.querySelector('#room-name-input').focus();
         document.querySelector('#room-name-input').onkeyup = function(e) {
             if (e.keyCode === 13) {  // enter, return
@@ -22,6 +29,12 @@
             var roomName = document.querySelector('#room-name-input').value;
             window.location.pathname = '/chat/' + roomName + '/';
         };
-    </script>
+
+        document.querySelector('#room-create-submit').onclick = function(e) {
+            window.location.pathname = 'counter/createroom/';
+        };
+
+
+</script>
 </body>
 </html>

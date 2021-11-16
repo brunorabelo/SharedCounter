@@ -1,11 +1,17 @@
 # chat/consumers.py
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+import redis
+from django.conf import settings
 
-class ChatConsumer(AsyncWebsocketConsumer):
+
+class CounterConsumer(AsyncWebsocketConsumer):
+    redis_instance = redis.StrictRedis(host=settings.REDIS_HOST,
+                                       port=settings.REDIS_PORT, db=0)
+
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' % self.room_name
+        self.room_group_name = 'counter_%s' % self.room_name
 
         # Join room group
         await self.channel_layer.group_add(
@@ -25,22 +31,31 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        print(text_data)
+        current_client = text_data_json['total']
+        current = self.redis_instance.get(self.room_name) or 0
+        current = int(current)
+        current += 1
+        self.redis_instance.set(self.room_name, current)
 
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'chat_message',
-                'message': message
+                'type': 'counter_inc',
+                'total': current
             }
         )
 
+    async def counter_reset(self, event):
+        pass
+
     # Receive message from room group
-    async def chat_message(self, event):
-        message = event['message']
+    async def counter_inc(self, event):
+        print(event)
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'message': message
+            'type': 'counter_inc',
+            'total': event['total']
         }))
