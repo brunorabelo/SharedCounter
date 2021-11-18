@@ -33,10 +33,9 @@ class CounterConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         print(text_data)
         current_client = text_data_json['total']
-        current = self.redis_instance.get(self.room_name) or 0
-        current = int(current)
-        current += 1
-        self.redis_instance.set(self.room_name, current)
+        self.redis_instance.incr(self.room_group_name)
+
+        current = int(self.redis_instance.get(self.room_group_name) or 0)
 
         # Send message to room group
         await self.channel_layer.group_send(

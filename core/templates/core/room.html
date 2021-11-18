@@ -3,13 +3,13 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>Chat Room</title>
+    <title>Counter Room</title>
 </head>
 <body>
-<textarea id="count-log" cols="100" rows="20"></textarea><br>
+<textarea id="count-log" cols="10" rows="10"></textarea><br>
 <p id="count-total">{{total}}</p><br>
 <!--    <input id="chat-message-input" type="text" size="100"><br>-->
-<input id="count-up-submit" type="button" value="+">
+<input id="count-up-submit" type="button" value="+" style="height:50px; width:50px;">
 
 {{ room_name|json_script:"room-name" }}
 

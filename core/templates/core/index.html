@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>AppCounter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
 <div>
@@ -27,7 +28,7 @@
 
         document.querySelector('#room-name-submit').onclick = function(e) {
             var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/chat/' + roomName + '/';
+            window.location.pathname = '/counter/room/' + roomName + '/';
         };
 
         document.querySelector('#room-create-submit').onclick = function(e) {

@@ -14,10 +14,10 @@ def index(request):
 
 
 def room(request, room_name):
-
+    room_group_name = 'counter_%s' % room_name
     return render(request, 'core/room.html', {
         'room_name': room_name,
-        'total': int(redis_instance.get(room_name) or 0)
+        'total': int(redis_instance.get(room_group_name) or 0)
     })
 
 
