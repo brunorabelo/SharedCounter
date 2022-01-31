@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-!tqgfhy@wlhd0jtof^2)*1$w)-+nx52y_g5d=gfwgqzjn#mztf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.42.0.1', '*']
+ALLOWED_HOSTS = ['3.13.147.30', '*']
 
 # Application definition
 
@@ -71,7 +71,7 @@ WSGI_APPLICATION = 'appcounter.wsgi.application'
 
 # Channels
 ASGI_APPLICATION = "appcounter.asgi.application"
-REDIS_HOST = 'localhost'
+REDIS_HOST = '172.18.0.1'
 REDIS_PORT = 6379
 CHANNEL_LAYERS = {
     'default': {
@@ -95,7 +95,7 @@ DATABASES = {
 
         'PASSWORD': 'appcounter',
 
-        'HOST': 'localhost',
+        'HOST': '172.18.0.1',
 
         'PORT': '',
 
