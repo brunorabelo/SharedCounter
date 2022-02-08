@@ -9,22 +9,25 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+if 'DEBUG' not in os.environ:
+    load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!tqgfhy@wlhd0jtof^2)*1$w)-+nx52y_g5d=gfwgqzjn#mztf'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'foo')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", True)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(" ")
 
 # Application definition
 
@@ -71,8 +74,8 @@ WSGI_APPLICATION = 'appcounter.wsgi.application'
 
 # Channels
 ASGI_APPLICATION = "appcounter.asgi.application"
-REDIS_HOST = '172.18.0.1'
-REDIS_PORT = 6379
+REDIS_HOST = os.environ.get("REDIS_HOST", '172.18.0.1')
+REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -85,22 +88,14 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-        'NAME': 'appcounter',
-
-        'USER': 'appcounter',
-
-        'PASSWORD': 'appcounter',
-
-        'HOST': '172.18.0.1',
-
-        'PORT': '',
-
+    "default": {
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
+        "NAME": os.environ.get("SQL_DATABASE", "appcounter"),
+        "USER": os.environ.get("SQL_USER", "appcounter"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "appcounter"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
     }
-
 }
 
 # Password validation

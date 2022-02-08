@@ -1,40 +1,20 @@
-FROM python:3.8
+FROM python:3.9-slim
 
-RUN apt-get update --fix-missing && \
-    apt-get install -y curl vim nano git locales zip unzip && \
-    pip install uwsgi uwsgitop
+WORKDIR /usr/src/app/
 
-# Replace shell with bash so we can source files
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh && \
-    echo "export LS_OPTIONS='--color=auto'" >>~/.bashrc && \
-    echo "eval "\`dircolors\`"" >>~/.bashrc && \
-    echo "alias ls='ls \$LS_OPTIONS'" >>~/.bashrc && \
-    echo "alias ll='ls \$LS_OPTIONS -l'" >>~/.bashrc && \
-    echo "alias l='ls \$LS_OPTIONS -lA'" >>~/.bashrc
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
 
-# RUN cd /tmp && \
-#     wget --quiet https://nodejs.org/dist/v9.1.0/node-v9.1.0-linux-x64.tar.xz && \
-#     tar xf node-v9.1.0-linux-x64.tar.xz && \
-#     cp -r node-v9.1.0-linux-x64/* /usr && \
-#     rm node-v9.1.0-linux-x64.tar.xz && \
-#     npm install -g pm2
 
-RUN mkdir /dkdata
-WORKDIR /app
-
-COPY requirements.txt ./
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+COPY /docker/bin/entrypoint.sh ./docker/bin/
+RUN sed -i 's/\r$//g' /usr/src/app/docker/bin/entrypoint.sh
+RUN chmod +x /usr/src/app/docker/bin/entrypoint.sh
 
-# COPY frontend/package.json frontend/package.json
-# RUN cd frontend && npm install
-# COPY frontend frontend
-# RUN cd frontend && npm run build
+COPY . .
 
-ENV SHELL=/bin/bash PYTHONUNBUFFERED=1 NODE_ENV=production API_MOCK=0 PYTHONIOENCODING=UTF-8 LANG=en_US.UTF-8 DJANGO_STATIC_ROOT=/dkdata/static DJANGO_LOG_FILE=/dkdata/appcounter.log UWSGI_PROCESSES=3 PORT=3000 HOST=0.0.0.0 API_BASE_URL=http://localhost:8000
+ENTRYPOINT ["/usr/src/app/docker/bin/entrypoint.sh"]
 
-COPY . /app
-COPY uwsgi.ini /app/dkdata
-
-COPY docker/bin/* /usr/bin/
 
