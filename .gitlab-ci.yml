@@ -17,6 +17,8 @@ before_script:
   - export IMAGE=$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME
   - export WEB_IMAGE=$IMAGE:web
   - export NGINX_IMAGE=$IMAGE:nginx
+  - export REDIS_IMAGE=$IMAGE:redis
+  - export DB_IMAGE=$IMAGE:db
   - apk add --no-cache openssh-client bash
   - chmod +x ./setup_env.sh
   - bash ./setup_env.sh
@@ -27,9 +29,13 @@ build:
   script:
     - docker pull $IMAGE:web || true
     - docker pull $IMAGE:nginx || true
-    - docker-compose -f docker-compose.ci.yml build
+    - docker pull $IMAGE:redis || true
+    - docker pull $IMAGE:db || true
+    - docker-compose -f docker/compose/docker-compose.ci.yml build
     - docker push $IMAGE:web
     - docker push $IMAGE:nginx
+    - docker push $IMAGE:redis
+    - docker push $IMAGE:db
 
 deploy:
   stage: deploy
