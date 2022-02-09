@@ -44,7 +44,7 @@ deploy:
     - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
     - chmod +x ./docker/bin/deploy.sh
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p /home/$SERVER_USER/app"
-    - scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app
+    - scp  -o StrictHostKeyChecking=no -r ./.env ./docker/compose/docker-compose.prod.yml $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app
     - bash ./deploy.sh
   only:
     - main
