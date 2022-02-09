@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  web: &dj
+  web:
     image: "${WEB_IMAGE}"
     command: gunicorn appcounter.wsgi:application --bind 0.0.0.0:8000
     expose:
