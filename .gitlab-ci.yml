@@ -37,7 +37,7 @@ deploy:
   script:
     - mkdir -p ~/.ssh
     - cat $ID_RSA > ~/.ssh/id_rsa
-#    - cat ~/.ssh/id_rsa
+    - cat ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
@@ -47,4 +47,4 @@ deploy:
     - scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app
     - bash ./deploy.sh
   only:
-    - master
+    - main
