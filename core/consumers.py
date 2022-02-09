@@ -32,7 +32,7 @@ class CounterConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         print(text_data)
-        current_client = text_data_json['total']
+        # current_client = text_data_json['total']
         self.redis_instance.incr(self.room_group_name)
 
         current = int(self.redis_instance.get(self.room_group_name) or 0)
