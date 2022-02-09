@@ -37,12 +37,13 @@ deploy:
   script:
     - mkdir -p ~/.ssh
     - cat $ID_RSA > ~/.ssh/id_rsa
-    - cat ~/.ssh/id_rsa
+#    - cat ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
     - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
     - chmod +x ./docker/bin/deploy.sh
+    - cat ./.env
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p /home/$SERVER_USER/app"
     - scp  -o StrictHostKeyChecking=no -r ./.env ./docker/compose/docker-compose.prod.yml $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app
     - bash ./docker/bin/deploy.sh
