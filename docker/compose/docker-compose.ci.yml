@@ -15,7 +15,7 @@ services:
       - 8000
       - 8001
     env_file:
-      - ../config/.env.prod
+      - .env
     depends_on:
       - db
   nginx:
@@ -30,17 +30,6 @@ services:
       - 80:80
     depends_on:
       - web
-  db:
-    image: postgres:13.0-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ../config/.env.prod.db
-  redis:
-    image: redis
-    ports:
-      - "6379:6379"
 
 volumes:
   static_volume:
-  postgres_data:
