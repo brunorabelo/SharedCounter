@@ -19,8 +19,8 @@ services:
   nginx:
     build:
       context: ../nginx/.
-      cache_from:
-        - "${NGINX_IMAGE}"
+#      cache_from:
+#        - "${NGINX_IMAGE}"
     image: "${NGINX_IMAGE}"
     volumes:
       - static_volume:/usr/src/app/staticfiles
