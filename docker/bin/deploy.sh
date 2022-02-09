@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ssh -o StrictHostKeyChecking=no ec2-user@$SERVER_IP << 'ENDSSH'
+ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'ENDSSH'
   cd /home/ubuntu/app
   export $(cat .env | xargs)
   docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
