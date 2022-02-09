@@ -52,7 +52,7 @@ RUN pip install --no-cache /wheels/*
 # copy entrypoint.prod.sh
 #COPY /docker/bin/entrypoint.sh ./docker/bin/
 #RUN sed -i 's/\r$//g'  $APP_HOME/docker/bin/entrypoint.prod.sh
-RUN chmod +x  $APP_HOME/docker/bin/entrypoint.prod.sh
+#RUN chmod +x  $APP_HOME/docker/bin/entrypoint.prod.sh
 
 # copy project
 COPY . $APP_HOME
