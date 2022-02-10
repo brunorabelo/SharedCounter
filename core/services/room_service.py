@@ -1,8 +1,5 @@
 import uuid
-
-from isort import code
 from core.models import Room, Connection
-from core.views import room
 from . import redis_service
 
 def create_new_room():
