@@ -1,9 +1,8 @@
 from django.http import JsonResponse
-from django.shortcuts import redirect
 import uuid
 # Create your views here.
 from django.shortcuts import render
-from django.urls import reverse
+from services import room_service
 
 
 def index(request):
@@ -11,10 +10,11 @@ def index(request):
 
 
 def room(request, room_name):
+    count_room = room_service.get_room_count(room_name)
     json_data = {
         'result': {
-            'link': room_name,
-            'total': ''
+            'room_name': room_name,
+            'total': count_room
         }
     }
     response = JsonResponse(json_data)
@@ -23,8 +23,7 @@ def room(request, room_name):
 
 
 def create_room(request):
-    room_name = uuid.uuid4().hex[:6].upper()
-    room_link = f''
+    room_link = room_service.create_new_room()
     json_data = {
         'result': {
             'link': room_link
