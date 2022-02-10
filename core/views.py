@@ -2,6 +2,8 @@ from django.http import JsonResponse
 import uuid
 # Create your views here.
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
 from core.services import room_service
 
 
@@ -9,6 +11,7 @@ def index(request):
     return render(request, 'core/index.html')
 
 
+@csrf_exempt
 def room(request, room_name):
     count_room = room_service.get_room_count(room_name)
     json_data = {
@@ -22,6 +25,7 @@ def room(request, room_name):
     return response
 
 
+@csrf_exempt
 def create_room(request):
     new_user = request.POST.get('username')
     room = room_service.create_new_room()
