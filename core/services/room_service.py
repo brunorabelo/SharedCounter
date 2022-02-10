@@ -1,7 +1,8 @@
 import uuid
 
 from isort import code
-from core.models import Room
+from core.models import Room, Connection
+from core.views import room
 from . import redis_service
 
 def create_new_room():
@@ -18,7 +19,15 @@ def create_new_room():
     new_room.save()
 
     #TODO retorna o link
-    return room_link
+    room = {
+        'code': room_name,
+        'link': room_link,
+    }
+    return room
+
+def create_new_connection(username, room_code):
+    con = Connection(room__code=room_code, user=username)
+    con.save()
 
 
 def get_room_count(room_name):

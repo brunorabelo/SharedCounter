@@ -23,10 +23,12 @@ def room(request, room_name):
 
 
 def create_room(request):
-    room_link = room_service.create_new_room()
+    new_user = request.POST['username']
+    room = room_service.create_new_room()
+    room_service.create_new_connection(new_user, room['code'])
     json_data = {
         'result': {
-            'link': room_link
+            'link': room['link']
         }
     }
     response = JsonResponse(json_data)
