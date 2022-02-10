@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>AppCounter</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 </head>
 <body>
 <div>
@@ -14,8 +14,12 @@
 </div>
 <br>
 <div>
-    <label for="room-create-submit">Create a room:</label>
-    <input id="room-create-submit" type="button" value="Create">
+    <form action="{% url 'createroom' %}" method="post">
+        {% csrf_token %}
+        <label for="username">Your name: </label>
+        <input id="username" type="text" name="username">
+        <input type="submit" value="OK">
+    </form>
 </div>
 
 <script>
@@ -31,9 +35,8 @@
             window.location.pathname = '/counter/room/' + roomName + '/';
         };
 
-        document.querySelector('#room-create-submit').onclick = function(e) {
-            window.location.pathname = 'counter/createroom/';
-        };
+
+
 
 
 </script>

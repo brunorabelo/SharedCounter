@@ -7,6 +7,7 @@ urlpatterns = [
     # url(r'^api/$', ''),
     re_path('^$', views.index, name='index'),
     path('createroom/', views.create_room, name='createroom'),
-    path('room/<str:room_name>/', views.room, name='room'),
+    path('room/<str:room_name>/', views.room),
+    path('template/<str:room_name>/', views.room_template, name='room'),
 
 ]

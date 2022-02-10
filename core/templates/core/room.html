@@ -26,8 +26,10 @@
         );
 
         chatSocket.onmessage = function(e) {
+            console.log(e);
             const data = JSON.parse(e.data);
-            const total = data.total;
+            console.log(data)
+            const total = data.counter_total;
             document.querySelector('#count-log').value += (total + '\n');
             document.getElementById('count-total').innerText = total;
         };
@@ -46,10 +48,11 @@
         document.querySelector('#count-up-submit').onclick = function(e) {
             //const messageInputDom = document.querySelector('#chat-message-input');
             //const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'type': 'count_inc',
+            data = {
+                'event': 'count.inc',
                 'total': totalCount
-            }));
+            };
+            chatSocket.send(JSON.stringify(data));
             //messageInputDom.value = '';
         };
 

@@ -15,16 +15,12 @@ def create_new_room():
     new_room = Room(code=room_name, link=room_link)
     new_room.save()
 
-    #TODO retorna o link
     room = {
         'code': room_name,
         'link': room_link,
     }
     return room
 
-def create_new_connection(username, room_code):
-    con = Connection(room__code=room_code, user=username)
-    con.save()
 
 
 def get_room_count(room_name):

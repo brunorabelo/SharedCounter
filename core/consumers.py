@@ -7,6 +7,7 @@ from core.services import redis_service
 
 class CounterConsumer(AsyncWebsocketConsumer):
     def __init__(self):
+        super().__init__(self)
         self.room_group_name = ''
 
     async def connect(self):
@@ -25,28 +26,29 @@ class CounterConsumer(AsyncWebsocketConsumer):
         )
 
     # Receive message from WebSocket
-    async def receive(self, content):
+    async def receive(self, text_data):
         '''
         :param content: ex.: {'event': 'count.inc' ou 'user.joined', 'user.left', 'data':  }
         :return:
         '''
-        data = json.loads(content)
-        command_type = data.get('event')
+        data = json.loads(text_data)
+        event_type = data.get('event')
 
-        if command_type == 'count.inc':
+        if event_type == 'count.inc':
             await self._count_inc(data)
-        elif command_type == 'user.joined':
+        elif event_type == 'user.joined':
             await self._user_joined(data)
-        elif command_type == 'user.left':
+        elif event_type == 'user.left':
             await self._user_left(data)
 
     # Receive message from room group
     async def echo_data(self, data):
         # Send message to WebSocket
-        await self.send_json(data)
+        text_data = json.dumps(data.get('data', {}))
+        await self.send(text_data)
 
     async def _count_inc(self, data):
-        current_count = self._count_inc(self.room_group_name)
+        current_count = redis_service.inc_room_counter(self.room_group_name)
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -57,7 +59,7 @@ class CounterConsumer(AsyncWebsocketConsumer):
             }
         )
 
-    def _user_joined(self, data):
+    async def _user_joined(self, data):
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -66,7 +68,7 @@ class CounterConsumer(AsyncWebsocketConsumer):
             }
         )
 
-    def _user_left(self, data):
+    async def _user_left(self, data):
         await self.channel_layer.group_send(
             self.room_group_name,
             {
