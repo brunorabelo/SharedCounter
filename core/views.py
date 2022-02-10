@@ -2,7 +2,7 @@ from django.http import JsonResponse
 import uuid
 # Create your views here.
 from django.shortcuts import render
-from services import room_service
+from core.services import room_service
 
 
 def index(request):
