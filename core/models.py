@@ -1,6 +1,7 @@
 from operator import mod
 from django.db import models
 
+
 # Create your models here.
 
 class Room(models.Model):
@@ -10,6 +11,7 @@ class Room(models.Model):
 
     def __str__(self):
         return self.code
+
 
 class Connection(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
