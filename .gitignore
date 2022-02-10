@@ -1,0 +1,9 @@
+.idea
+venv
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyc
+tasks
+docker/config/.env.dev
+appcounter/.env
