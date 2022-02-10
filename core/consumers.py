@@ -1,5 +1,6 @@
 # chat/consumers.py
 import json
+from urllib import request
 from channels.generic.websocket import AsyncWebsocketConsumer
 import redis
 from django.conf import settings

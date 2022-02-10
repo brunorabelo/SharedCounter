@@ -1,5 +1,8 @@
 import uuid
 
+from isort import code
+from core.models import Room
+from . import redis_service
 
 def create_new_room():
     BASE_URL = '3.13.147.30'
@@ -7,15 +10,18 @@ def create_new_room():
     room_name = ''
     while True:
         room_name = uuid.uuid4().hex[:6].upper()
-        # TODO: verifica se o nome ja tem no banco de dados e sai quando achar um nome novo
-        break
+        if not Room.objects.filter(code=room_name).exists():
+            break
     room_link = f'ws://{BASE_URL}/ws/counter/{room_name}'
-    # TODO cria o room no db
+
+    new_room = Room(code=room_name, link=room_link)
+    new_room.save()
 
     #TODO retorna o link
     return room_link
 
 
 def get_room_count(room_name):
-    # TODO verificar se sala existe e retornar valor se tiver
+    if Room.objects.filter(code=room_name).exists():
+        return redis_service.get_room_count(room_name)
     return 0
