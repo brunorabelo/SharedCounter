@@ -23,7 +23,7 @@ def room(request, room_name):
 
 
 def create_room(request):
-    new_user = request.POST['username']
+    new_user = request.POST.get('username')
     room = room_service.create_new_room()
     # room_service.create_new_connection(new_user, room['code'])
     json_data = {

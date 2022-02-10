@@ -36,10 +36,6 @@ class CounterConsumer(AsyncWebsocketConsumer):
 
         if event_type == 'count.inc':
             await self._count_inc(data)
-        elif event_type == 'user.joined':
-            await self._user_joined(data)
-        elif event_type == 'user.left':
-            await self._user_left(data)
 
     # Receive message from room group
     async def echo_data(self, data):

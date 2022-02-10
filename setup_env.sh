@@ -3,6 +3,7 @@
 # shellcheck disable=SC2129
 echo DEBUG=0 >>.env
 echo DJANGO_SETTINGS_MODULE=appcounter.settings >>.env
+echo PROD=1 >>.env
 
 echo SQL_ENGINE=$SQL_ENGINE >>.env
 echo DATABASE=$DATABASE >>.env
