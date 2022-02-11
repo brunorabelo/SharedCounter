@@ -40,7 +40,7 @@ class CounterConsumer(AsyncWebsocketConsumer):
     # Receive message from room group
     async def echo_data(self, data):
         # Send message to WebSocket
-        text_data = json.dumps(data.get('data', {}))
+        text_data = json.dumps(data)
         await self.send(text_data)
 
     async def _count_inc(self, data):
