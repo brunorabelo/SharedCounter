@@ -18,6 +18,7 @@ before_script:
   - export IMAGE=$CI_REGISTRY_IMAGE
   - export WEB_IMAGE=$IMAGE:web
   - export NGINX_IMAGE=$IMAGE:nginx
+  - export CI_COMMIT=$CI_COMMIT_SHA
   - apk add --no-cache openssh-client bash
   - chmod +x ./setup_env.sh
   - bash ./setup_env.sh
@@ -26,11 +27,11 @@ before_script:
 build:
   stage: build
   script:
-    - docker pull $IMAGE:web || true
-    - docker pull $IMAGE:nginx || true
+    - docker pull $WEB_IMAGE:latest || true
+    - docker pull $NGINX_IMAGE:latest || true
     - docker-compose -f docker/compose/docker-compose.ci.yml build
-    - docker push $IMAGE:web
-    - docker push $IMAGE:nginx
+    - docker push $WEB_IMAGE:$CI_COMMIT_SHA
+    - docker push $NGINX_IMAGE:$CI_COMMIT_SHA
 
 #test:
 #  stage: test

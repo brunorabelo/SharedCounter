@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: "${WEB_IMAGE}"
+    image: "${WEB_IMAGE}:${CI_COMMIT_SHA}"
     command: gunicorn appcounter.wsgi:application --bind 0.0.0.0:8000
     expose:
       - 8000
@@ -26,7 +26,7 @@ services:
       timeout: 5s
       retries: 5
   nginx:
-    image: "${NGINX_IMAGE}"
+    image: "${NGINX_IMAGE}:${CI_COMMIT_SHA}"
     volumes:
       - static_volume:/home/app/web/staticfiles
     ports:
