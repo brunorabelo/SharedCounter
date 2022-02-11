@@ -12,12 +12,24 @@ stages:
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
+  IMAGE:$CI_REGISTRY_IMAGE
+  LATEST_WEB_IMAGE_TAG:$IMAGE/web:latest
+  COMMIT_WEB_IMAGE_TAG:$IMAGE/web:$CI_COMMIT_SHA
+  REALEASE_WEB_IMAGE:$IMAGE/web:$CI_COMMIT_REF_NAME
+  LATEST_NGINX_IMAGE_TAG:$IMAGE/nginx:latest
+  COMMIT_NGINX_IMAGE_TAG:$IMAGE/nginx:$CI_COMMIT_SHA
+  REALEASE_NGINX_IMAGE:$IMAGE/nginx:$CI_COMMIT_REF_NAME
+
 
 before_script:
 #  - export IMAGE=$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME
-  - export IMAGE=$CI_REGISTRY_IMAGE
-  - export WEB_IMAGE=$IMAGE:web
-  - export NGINX_IMAGE=$IMAGE:nginx
+  - export IMAGE=$IMAGE
+  - export LATEST_WEB_IMAGE_TAG=$LATEST_WEB_IMAGE_TAG
+  - export COMMIT_WEB_IMAGE_TAG=$COMMIT_WEB_IMAGE_TAG
+  - export REALEASE_WEB_IMAGE=$REALEASE_WEB_IMAGE
+  - export LATEST_NGINX_IMAGE_TAG=$LATEST_NGINX_IMAGE_TAG
+  - export COMMIT_NGINX_IMAGE_TAG=$COMMIT_NGINX_IMAGE_TAG
+  - export REALEASE_NGINX_IMAGE=$REALEASE_NGINX_IMAGE
   - apk add --no-cache openssh-client bash
   - chmod +x ./setup_env.sh
   - bash ./setup_env.sh
@@ -26,11 +38,53 @@ before_script:
 build:
   stage: build
   script:
-    - docker pull $IMAGE:web || true
-    - docker pull $IMAGE:nginx || true
+    - docker pull $LATEST_WEB_IMAGE_TAG || true
+    - docker pull $LATEST_NGINX_IMAGE_TAG || true
     - docker-compose -f docker/compose/docker-compose.ci.yml build
-    - docker push $IMAGE:web
-    - docker push $IMAGE:nginx
+    - docker push COMMIT_WEB_IMAGE_TAG
+    - docker push COMMIT_NGINX_IMAGE_TAG
+
+Push latest:
+  variables:
+    GIT_STRATEGY: none
+  stage: release
+  only:
+    # Only "master" should be tagged "latest"
+    - main
+  script:
+    # Because we have no guarantee that this job will be picked up by the same runner
+    # that built the image in the previous step, we pull it again locally
+    - docker pull $COMMIT_WEB_IMAGE_TAG
+    - docker pull $COMMIT_NGINX_IMAGE_TAG
+    # Then we tag it "latest"
+    - docker tag $COMMIT_WEB_IMAGE_TAG $LATEST_WEB_IMAGE_TAG
+    - docker tag $COMMIT_NGINX_IMAGE_TAG $LATEST_NGINX_IMAGE_TAG
+    -
+    # Annnd we push it.
+    - docker push $LATEST_WEB_IMAGE_TAG
+    - docker push $LATEST_NGINX_IMAGE_TAG
+    -
+# Finally, the goal here is to Docker tag any Git tag
+# GitLab will start a new pipeline everytime a Git tag is created, which is pretty awesome
+Push tag:
+  variables:
+    GIT_STRATEGY: none
+  stage: release
+  only:# Finally, the goal here is to Docker tag any Git tag
+    # GitLab will start a new pipeline everytime a Git tag is created, which is pretty awesome
+    - tags
+  script:
+    # Because we have no guarantee that this job will be picked up by the same runner
+    # that built the image in the previous step, we pull it again locally
+    - docker pull $COMMIT_WEB_IMAGE_TAG
+    - docker pull $COMMIT_NGINX_IMAGE_TAG
+    # Then we tag it "latest"
+    - docker tag $COMMIT_WEB_IMAGE_TAG $REALEASE_WEB_IMAGE
+    - docker tag $COMMIT_NGINX_IMAGE_TAG $REALEASE_NGINX_IMAGE
+    -
+    # Annnd we push it.
+    - docker push $REALEASE_WEB_IMAGE
+    - docker push $REALEASE_NGINX_IMAGE
 
 deploy:
   stage: deploy

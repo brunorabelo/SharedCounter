@@ -6,8 +6,8 @@ services:
       context: ../../.
       dockerfile: Dockerfile.ci
       cache_from:
-        - "${WEB_IMAGE}:latest"
-    image: "${WEB_IMAGE}:${CI_COMMIT_SHA}"
+        - "${LATEST_WEB_IMAGE_TAG}"
+    image: "${COMMIT_WEB_IMAGE_TAG}"
     command: gunicorn appcounter.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/usr/src/app/staticfiles
@@ -20,8 +20,8 @@ services:
     build:
       context: ../nginx/.
       cache_from:
-        - "${NGINX_IMAGE}:latest"
-    image: "${NGINX_IMAGE}:${CI_COMMIT_SHA}"
+        - "${LATEST_NGINX_IMAGE_TAG}"
+    image: "${COMMIT_NGINX_IMAGE_TAG}"
     volumes:
       - static_volume:/usr/src/app/staticfiles
     ports:
