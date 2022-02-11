@@ -58,8 +58,6 @@ build:
 #  coverage: "/TOTAL.+ ([0-9]{1,3}%)/"
 
 Push latest:
-  variables:
-    GIT_STRATEGY: none
   stage: release
   only:
     # Only "master" should be tagged "latest"
