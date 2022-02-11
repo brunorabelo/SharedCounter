@@ -2,11 +2,14 @@ import uuid
 from core.models import Room, Connection
 from . import redis_service
 
-def create_new_room():
-    BASE_URL = '3.13.147.30'
+BASE_URL = '3.13.147.30'
+MAX_ATTEMPTS = 5
 
+
+def create_new_room():
     room_name = ''
-    while True:
+    attempts = MAX_ATTEMPTS
+    while attempts > 0:
         room_name = uuid.uuid4().hex[:6].upper()
         if not Room.objects.filter(code=room_name).exists():
             break
@@ -21,7 +24,6 @@ def create_new_room():
         'link': room_link
     }
     return room
-
 
 
 def get_room_count(room_name):

@@ -7,7 +7,7 @@ from core.services import redis_service
 
 class CounterConsumer(AsyncWebsocketConsumer):
     def __init__(self):
-        super().__init__(self)
+        super(CounterConsumer, self)
         self.room_group_name = ''
 
     async def connect(self):
