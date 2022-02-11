@@ -10,14 +10,15 @@ def create_new_room():
         room_name = uuid.uuid4().hex[:6].upper()
         if not Room.objects.filter(code=room_name).exists():
             break
-    room_link = f'ws://{BASE_URL}/ws/counter/{room_name}'
+    # web_socket_link = f'ws://{BASE_URL}/ws/counter/{room_name}'
+    room_link = f'htpp://{BASE_URL}/counter/{room_name}'
 
     new_room = Room(code=room_name, link=room_link)
     new_room.save()
 
     room = {
-        'code': room_name,
-        'link': room_link,
+        'room_name': room_name,
+        'link': room_link
     }
     return room
 
