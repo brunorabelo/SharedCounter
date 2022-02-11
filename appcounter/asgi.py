@@ -15,7 +15,7 @@ from django.core.asgi import get_asgi_application
 
 import core.routing
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'appcounter.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'appcounter.settings.local')
 
 application = get_asgi_application()
 
