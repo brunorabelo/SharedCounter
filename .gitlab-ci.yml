@@ -30,7 +30,7 @@ build:
   script:
     - docker pull $TAG_LATEST || true
 #    - docker-compose -f docker/compose/docker-compose.ci.yml build
-    - docker build --pull --cache-from $TAG_LATEST --tag $TAG_COMMIT Dockerfile.prod
+    - docker build --pull --cache-from $TAG_LATEST --tag $TAG_COMMIT -f Dockerfile.prod .
     - docker push $TAG_COMMIT
 
 #test:
@@ -94,7 +94,7 @@ deploy:
     - chmod +x ./docker/bin/deploy.sh
     - cat ./.env
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p /home/$SERVER_USER/app"
-    - scp  -o StrictHostKeyChecking=no -r ./.env ./Dockerfile.prod $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app
+    - scp  -o StrictHostKeyChecking=no -r ./.env $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app
     - bash ./docker/bin/deploy.sh
   only:
     - main
