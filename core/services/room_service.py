@@ -6,13 +6,20 @@ BASE_URL = '3.13.147.30'
 MAX_ATTEMPTS = 5
 
 
+def _get_random_name(size=6):
+    return uuid.uuid4().hex[:size].upper()
+
+
 def create_new_room():
     room_name = ''
     attempts = MAX_ATTEMPTS
     while attempts > 0:
-        room_name = uuid.uuid4().hex[:6].upper()
+        attempts -= 1
+        room_name = _get_random_name()
         if not Room.objects.filter(code=room_name).exists():
             break
+    if attempts == 0:
+        raise Exception('Error while creating unique room_name')
     # web_socket_link = f'ws://{BASE_URL}/ws/counter/{room_name}'
     room_link = f'htpp://{BASE_URL}/counter/{room_name}'
 

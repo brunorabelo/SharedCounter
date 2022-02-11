@@ -28,7 +28,11 @@ def room(request, room_name):
 @csrf_exempt
 def create_room(request):
     new_user = request.POST.get('username')
-    room = room_service.create_new_room()
+    room = ''
+    try:
+        room = room_service.create_new_room()
+    except Exception as e:
+        return JsonResponse({'error': str(e)})
     # room_service.create_new_connection(new_user, room['code'])
     json_data = {
         'result': {
