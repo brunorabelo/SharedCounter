@@ -59,11 +59,9 @@ Push latest:
     # Then we tag it "latest"
     - docker tag $COMMIT_WEB_IMAGE_TAG $LATEST_WEB_IMAGE_TAG
     - docker tag $COMMIT_NGINX_IMAGE_TAG $LATEST_NGINX_IMAGE_TAG
-    -
     # Annnd we push it.
     - docker push $LATEST_WEB_IMAGE_TAG
     - docker push $LATEST_NGINX_IMAGE_TAG
-    -
 # Finally, the goal here is to Docker tag any Git tag
 # GitLab will start a new pipeline everytime a Git tag is created, which is pretty awesome
 Push tag:
@@ -81,7 +79,6 @@ Push tag:
     # Then we tag it "latest"
     - docker tag $COMMIT_WEB_IMAGE_TAG $REALEASE_WEB_IMAGE
     - docker tag $COMMIT_NGINX_IMAGE_TAG $REALEASE_NGINX_IMAGE
-    -
     # Annnd we push it.
     - docker push $REALEASE_WEB_IMAGE
     - docker push $REALEASE_NGINX_IMAGE
