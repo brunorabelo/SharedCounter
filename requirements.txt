@@ -10,3 +10,4 @@ python-dotenv==0.19.2
 fakeredis==1.7.0
 pytest==7.0.0
 flake8==4.0.1
+coverage==6.3.1
