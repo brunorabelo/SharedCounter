@@ -105,7 +105,7 @@ deploy:
     - ssh-add ~/.ssh/id_rsa
     - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
     - chmod +x ./docker/bin/deploy.sh
-    - cat ./.env
+#    - cat ./.env
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p /home/$SERVER_USER/app"
     - scp  -o StrictHostKeyChecking=no -r ./.env ./.env.db ./docker/compose/docker-compose.prod.yml $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app
     - bash ./docker/bin/deploy.sh
