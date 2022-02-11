@@ -38,7 +38,7 @@ build:
 test:
   stage: test
   script:
-    - docker-compose -f docker/compose/docker-compose.ci.yml run --rm django flake8
+    - docker-compose -f docker/compose/docker-compose.ci.yml run --rm web flake8
 
 deploy:
   stage: deploy
