@@ -42,8 +42,8 @@ build:
     - docker pull $LATEST_WEB_IMAGE_TAG || true
     - docker pull $LATEST_NGINX_IMAGE_TAG || true
     - docker-compose -f docker/compose/docker-compose.ci.yml build
-    - docker push COMMIT_WEB_IMAGE_TAG
-    - docker push COMMIT_NGINX_IMAGE_TAG
+    - docker push $COMMIT_WEB_IMAGE_TAG
+    - docker push $COMMIT_NGINX_IMAGE_TAG
 
 Push latest:
   variables:
