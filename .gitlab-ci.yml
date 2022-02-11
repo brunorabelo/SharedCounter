@@ -30,7 +30,7 @@ build:
   script:
     - docker pull $TAG_LATEST || true
 #    - docker-compose -f docker/compose/docker-compose.ci.yml build
-    - docker build --pull --cache-from $TAG_LATEST --tag $TAG_COMMIT -f Dockerfile.prod .
+    - docker build --pull --cache-from $TAG_LATEST --tag $TAG_COMMIT -f Dockerfile.ci .
     - docker push $TAG_COMMIT
 
 #test:
