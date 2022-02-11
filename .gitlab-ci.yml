@@ -1,12 +1,13 @@
 image:
   name: docker/compose:1.29.2
-  entrypoint: [""]
+  entrypoint: [ "" ]
 
 services:
   - docker:dind
 
 stages:
   - build
+  - test
   - deploy
 
 variables:
@@ -16,7 +17,7 @@ variables:
   TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
 
 before_script:
-#  - export IMAGE=$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME
+  #  - export IMAGE=$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME
   - export IMAGE=$CI_REGISTRY_IMAGE
   - export WEB_IMAGE=$IMAGE:web
   - export NGINX_IMAGE=$IMAGE:nginx
@@ -34,12 +35,17 @@ build:
     - docker push $IMAGE:web
     - docker push $IMAGE:nginx
 
+test:
+  stage: test
+  script:
+    - docker-compose -f docker/compose/docker-compose.ci.yml run --rm django flake8
+
 deploy:
   stage: deploy
   script:
     - mkdir -p ~/.ssh
     - cat $ID_RSA > ~/.ssh/id_rsa
-#    - cat ~/.ssh/id_rsa
+    #    - cat ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
