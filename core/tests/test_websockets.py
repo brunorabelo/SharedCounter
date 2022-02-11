@@ -37,6 +37,7 @@ class Test(TestCase):
             'type': 'count.inc',
             'counter_total': 1
         }
+        # confirma envio de evento e recebimento de resposta
         await self._send_and_assert_received(communicator, data, expected_response)
 
         data['total'] = 1
@@ -44,12 +45,13 @@ class Test(TestCase):
             'type': 'count.inc',
             'counter_total': 2
         }
+        # confirma envio de evento e recebimento de resposta
         await self._send_and_assert_received(communicator, data, expected_response)
 
         # Close
         await communicator.disconnect()
 
-    async def test_two_scokets_count_inc(self):
+    async def test_two_sockets_count_inc(self):
         room_name = 'ABC2'
         communicator1 = WebsocketCommunicator(self.application, f"/ws/counter/{room_name}/")
         connected, subprotocol = await communicator1.connect()
@@ -67,18 +69,22 @@ class Test(TestCase):
             'type': 'count.inc',
             'counter_total': 1
         }
+        # websocket1 tem que receber
         await self._send_and_assert_received(communicator1, data1, expected_response)
 
+        # websocket2 tem que receber
         await self._assert_received(communicator2, expected_response)
 
-        # websocket2 tem que receber
+        # Simula o envio pelo websocket2 agora
         data1['total'] = 1
         expected_response = {
             'type': 'count.inc',
             'counter_total': 2
         }
+        # Websocket2 tem que receber
         await self._send_and_assert_received(communicator2, data1, expected_response)
 
+        # Websocket1 tem que receber
         await self._assert_received(communicator1, expected_response)
 
         # Close
