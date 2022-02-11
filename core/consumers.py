@@ -7,7 +7,8 @@ from core.services import redis_service
 
 class CounterConsumer(AsyncWebsocketConsumer):
     def __init__(self):
-        super(CounterConsumer, self)
+        # super(CounterConsumer, self)
+        super().__init__(self)
         self.room_group_name = ''
 
     async def connect(self):
@@ -40,18 +41,20 @@ class CounterConsumer(AsyncWebsocketConsumer):
     # Receive message from room group
     async def echo_data(self, data):
         # Send message to WebSocket
-        text_data = json.dumps(data)
+        text_data = json.dumps(data.get('data', {}))
         await self.send(text_data)
 
     async def _count_inc(self, data):
         current_count = redis_service.inc_room_counter(self.room_group_name)
+        return_data = {
+            'type': data.get('event'),
+            'counter_total': current_count
+        }
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'echo.data',
-                'data': {
-                    'counter_total': current_count
-                }
+                'data': return_data
             }
         )
 

@@ -6,4 +6,4 @@ __pycache__/
 *.pyc
 tasks
 docker/config/.env.dev
-appcounter/.env
+appcounter/settings/.env
