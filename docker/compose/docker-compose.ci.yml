@@ -43,12 +43,6 @@ services:
     depends_on:
       - web
 
-  redis:
-    image: redis
-    ports:
-      - "6379:6379"
-#    volumes:   Just for the test stage, no persistence
-#      - redis_data:/data
 
 volumes:
   static_volume:

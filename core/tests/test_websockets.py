@@ -2,7 +2,8 @@ import json
 
 import fakeredis
 from channels.routing import URLRouter
-from django.test import TestCase
+from django.test import TestCase, override_settings
+
 from channels.testing import WebsocketCommunicator
 from django.urls import re_path
 from mock.mock import patch
@@ -10,6 +11,9 @@ from mock.mock import patch
 from core.consumers import CounterConsumer
 
 
+@override_settings(
+    CHANNEL_LAYERS={"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
+)
 @patch("core.services.redis_service.redis_instance", fakeredis.FakeStrictRedis())
 class Test(TestCase):
     def setUp(self):
