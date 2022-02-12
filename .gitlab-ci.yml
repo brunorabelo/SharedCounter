@@ -45,6 +45,7 @@ build:
     - docker push $COMMIT_WEB_IMAGE_TAG
     - docker push $COMMIT_NGINX_IMAGE_TAG
   when: manual
+  allow_failure: false
 
 test:
   stage: test
@@ -64,6 +65,7 @@ test:
       - htmlcov
       - docs/_build
     expire_in: 5 days
+  allow_failure: false
 #
 #Push latest:
 #  stage: release
