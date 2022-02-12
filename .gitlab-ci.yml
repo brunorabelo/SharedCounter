@@ -52,7 +52,7 @@ test:
   script:
     - docker pull $COMMIT_WEB_IMAGE_TAG
     - docker pull $COMMIT_NGINX_IMAGE_TAG
-#    - docker-compose -f docker/compose/docker-compose.ci.yml build
+    # - docker-compose -f docker/compose/docker-compose.ci.yml build
     #    - docker-compose -f docker/compose/docker-compose.ci.yml run --rm web flake8
     - docker-compose -f docker/compose/docker-compose.ci.yml run web coverage erase
     - docker-compose -f docker/compose/docker-compose.ci.yml run web coverage run manage.py test
@@ -64,7 +64,7 @@ test:
 #    paths:
 #      - htmlcov
 #      - docs/_build
-    expire_in: 5 days
+#    expire_in: 5 days
   allow_failure: false
 #
 Push latest:
