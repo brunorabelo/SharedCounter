@@ -26,6 +26,7 @@ class RoomServiceTests(TestCase):
         result = json_data.get('result')
         self.assertCountEqual(['room_name', 'link'], list(result.keys()))
         self.assertIn(room_service.BASE_URL, result['link'])
+        self.assertIn('room', result['link'])
         self.assertEqual('ABC4', result['room_name'])
 
     @mock.patch('core.services.room_service._get_random_name', return_value='ABC3')
