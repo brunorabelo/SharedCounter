@@ -11,5 +11,4 @@ ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'ENDSSH'
   docker-compose -f docker-compose.prod.yml down
   docker-compose -f docker-compose.prod.yml build
   docker-compose -f docker-compose.prod.yml up -d
-#  docker-compose -f docker-compose.prod.yml run web
 ENDSSH
