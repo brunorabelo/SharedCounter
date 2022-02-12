@@ -11,8 +11,8 @@ def get_room_count(room_name):
     return count
 
 
-def inc_room_counter(room_name):
-    redis_instance.incr(room_name)
-    count = int(redis_instance.get(room_name) or 0)
+def inc_group_counter(group_name):
+    redis_instance.incr(group_name)
+    count = int(redis_instance.get(group_name) or 0)
     return count
 

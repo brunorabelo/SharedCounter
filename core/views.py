@@ -13,6 +13,11 @@ def index(request):
 
 @csrf_exempt
 def room(request, room_name):
+    if not room_name:
+        return JsonResponse({
+            "error": "No room name sent"
+        })
+    room_name = room_name.upper()
     count_room = room_service.get_room_count(room_name)
     json_data = {
         'result': {

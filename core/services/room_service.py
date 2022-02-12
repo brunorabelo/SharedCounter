@@ -34,6 +34,7 @@ def create_new_room():
 
 
 def get_room_count(room_name):
+    room_name = room_name.upper()
     if Room.objects.filter(code=room_name).exists():
         return redis_service.get_room_count(room_name)
     return 0

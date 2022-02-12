@@ -45,7 +45,7 @@ class CounterConsumer(AsyncWebsocketConsumer):
         await self.send(text_data)
 
     async def _count_inc(self, data):
-        current_count = redis_service.inc_room_counter(self.room_group_name)
+        current_count = redis_service.inc_group_counter(self.room_group_name)
         return_data = {
             'type': data.get('event'),
             'counter_total': current_count
