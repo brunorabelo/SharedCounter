@@ -21,7 +21,7 @@ services:
         condition: service_healthy
   db:
     image: postgres:13.0-alpine
-#    volumes:
+#    volumes: Just for the test stage, no persistence
 #      - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ../../.env.db
@@ -42,6 +42,13 @@ services:
       - 80:80
     depends_on:
       - web
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+#    volumes:   Just for the test stage, no persistence
+#      - redis_data:/data
 
 volumes:
   static_volume:
