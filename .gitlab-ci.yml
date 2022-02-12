@@ -113,3 +113,4 @@ deploy:
     - bash ./docker/bin/deploy.sh
   only:
     - main
+  when: manual

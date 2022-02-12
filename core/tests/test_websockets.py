@@ -101,3 +101,6 @@ class Test(TestCase):
         text_data = json.dumps(send_data)
         await communicator.send_to(text_data=text_data)
         await self._assert_received(communicator, expected_response)
+
+    async def _send_user_joined_event(self, communicator, user):
+        pass
