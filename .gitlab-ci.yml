@@ -67,22 +67,22 @@ test:
     expire_in: 5 days
   allow_failure: false
 #
-#Push latest:
-#  stage: release
-#  only:
-#    # Only "master" should be tagged "latest"
-#    - main
-#  script:
-#    # Because we have no guarantee that this job will be picked up by the same runner
-#    # that built the image in the previous step, we pull it again locally
-#    - docker pull $COMMIT_WEB_IMAGE_TAG
-#    - docker pull $COMMIT_NGINX_IMAGE_TAG
-#    # Then we tag it "latest"
-#    - docker tag $COMMIT_WEB_IMAGE_TAG $LATEST_WEB_IMAGE_TAG
-#    - docker tag $COMMIT_NGINX_IMAGE_TAG $LATEST_NGINX_IMAGE_TAG
-#    # Annnd we push it.
-#    - docker push $LATEST_WEB_IMAGE_TAG
-#    - docker push $LATEST_NGINX_IMAGE_TAG
+Push latest:
+  stage: release
+  only:
+    # Only "master" should be tagged "latest"
+    - main
+  script:
+    # Because we have no guarantee that this job will be picked up by the same runner
+    # that built the image in the previous step, we pull it again locally
+    - docker pull $COMMIT_WEB_IMAGE_TAG
+    - docker pull $COMMIT_NGINX_IMAGE_TAG
+    # Then we tag it "latest"
+    - docker tag $COMMIT_WEB_IMAGE_TAG $LATEST_WEB_IMAGE_TAG
+    - docker tag $COMMIT_NGINX_IMAGE_TAG $LATEST_NGINX_IMAGE_TAG
+    # Annnd we push it.
+    - docker push $LATEST_WEB_IMAGE_TAG
+    - docker push $LATEST_NGINX_IMAGE_TAG
 
 ## Finally, the goal here is to Docker tag any Git tag
 ## GitLab will start a new pipeline everytime a Git tag is created, which is pretty awesome
