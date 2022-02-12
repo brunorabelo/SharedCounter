@@ -50,7 +50,8 @@ test:
   script:
     - docker pull $IMAGE:web
     - docker pull $IMAGE:nginx
-#    - docker-compose -f docker/compose/docker-compose.ci.yml run --rm web flake8
+    - docker-compose -f docker/compose/docker-compose.ci.yml build
+    #    - docker-compose -f docker/compose/docker-compose.ci.yml run --rm web flake8
     - docker-compose -f docker/compose/docker-compose.ci.yml run web coverage run -m pytest
     - docker-compose -f docker/compose/docker-compose.ci.yml run --rm web coverage html
     - docker-compose -f local.yml run --rm web /bin/sh -c "cd docs && apk add make && make html"
