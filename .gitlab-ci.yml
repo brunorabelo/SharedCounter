@@ -52,9 +52,9 @@ test:
     - docker pull $IMAGE:nginx
     - docker-compose -f docker/compose/docker-compose.ci.yml build
     #    - docker-compose -f docker/compose/docker-compose.ci.yml run --rm web flake8
-    - docker-compose -f docker/compose/docker-compose.ci.yml run web manage.py test
     - docker-compose -f docker/compose/docker-compose.ci.yml run web coverage erase
-    - docker-compose -f docker/compose/docker-compose.ci.yml run web coverage run  manage.py test
+    - docker-compose -f docker/compose/docker-compose.ci.yml run web coverage run manage.py test
+    - docker-compose -f docker/compose/docker-compose.ci.yml run web python manage.py test
 #    - docker-compose -f docker/compose/docker-compose.ci.yml run web coverage run -m pytest
 #    - docker-compose -f docker/compose/docker-compose.ci.yml run web coverage run -m pytest
     - docker-compose -f docker/compose/docker-compose.ci.yml run --rm web coverage html
