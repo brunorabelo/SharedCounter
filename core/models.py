@@ -1,4 +1,6 @@
 from operator import mod
+
+from django.conf import settings
 from django.db import models
 
 
@@ -6,11 +8,16 @@ from django.db import models
 
 class Room(models.Model):
     code = models.CharField(max_length=6)
-    link = models.CharField(max_length=128)
     counter = models.IntegerField(default=0)
 
     def __str__(self):
         return self.code
+
+    def get_websocket_link(self):
+        return f'ws://{settings.BASE_URL}/ws/counter/{self.code}'
+
+    def get_room_link(self):
+        return f'http://{settings.BASE_URL}/counter/room/{self.code}'
 
 
 class Connection(models.Model):

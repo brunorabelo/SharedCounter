@@ -20,7 +20,6 @@ def create_new_room():
             break
     if attempts == 0:
         raise Exception('Error while creating unique room_name')
-    # web_socket_link = f'ws://{BASE_URL}/ws/counter/{room_name}'
     room_link = f'htpp://{BASE_URL}/counter/room/{room_name}'
 
     new_room = Room(code=room_name, link=room_link)
