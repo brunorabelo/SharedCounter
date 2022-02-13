@@ -7,7 +7,7 @@ from django.db import models
 # Create your models here.
 
 class Room(models.Model):
-    code = models.CharField(max_length=6)
+    code = models.CharField(max_length=6, unique=True)
     counter = models.IntegerField(default=0)
 
     def __str__(self):
@@ -18,6 +18,9 @@ class Room(models.Model):
 
     def get_room_link(self):
         return f'http://{settings.BASE_URL}/counter/room/{self.code}'
+
+    def get_channel_name(self):
+        return f'counter_{self.code}'
 
 
 class Connection(models.Model):
