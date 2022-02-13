@@ -26,7 +26,7 @@ class Room(models.Model):
 class Connection(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     user = models.CharField(max_length=128)
-    connected = models.BooleanField(default=True)
+    alive = models.BooleanField(default=True)
     websocket = models.CharField(max_length=120)
 
     def __str__(self):
