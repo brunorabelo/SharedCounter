@@ -17,45 +17,36 @@ def room(request, room_name):
         return JsonResponse({
             "error": "No room name sent"
         })
-    room_name = room_name.upper()
-    count_room = room_service.get_room_count(room_name)
+    info = room_service.get_on_enter_room_info(room_name)
     json_data = {
-        'result': {
-            'room_name': room_name,
-            'total': count_room
-        }
+        'result': info
     }
     response = JsonResponse(json_data)
-
     return response
 
 
 @csrf_exempt
 def create_room(request):
-    new_user = request.POST.get('username')
-    room = ''
     try:
-        room = room_service.create_new_room()
+        room_info = room_service.create_new_room()
+
+        json_data = {
+            'result': room_info
+        }
+        response = JsonResponse(json_data)
+        return response
     except Exception as e:
         return JsonResponse({'error': str(e)})
-    # room_service.create_new_connection(new_user, room['code'])
-    json_data = {
-        'result': {
-            'link': room['link'],
-            'room_name': room['room_name']
-        }
-    }
-    response = JsonResponse(json_data)
-    return response
 
 
 def room_template(request, room_name):
-    count_room = room_service.get_room_count(room_name)
+    if not room_name:
+        return JsonResponse({
+            "error": "No room name sent"
+        })
+    info = room_service.get_on_enter_room_info()
     json_data = {
-        'result': {
-            'room_name': room_name,
-            'total': count_room
-        }
+        'result': info
     }
 
     return render(request=request, context=json_data['result'], template_name='core/room.html')

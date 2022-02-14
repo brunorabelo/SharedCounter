@@ -4,7 +4,6 @@
     "model": "core.room",
     "fields": {
       "code": "ABC",
-      "link": "http://abc.com.br/ws/abc",
       "counter": "0"
     }
   },
@@ -13,7 +12,6 @@
     "model": "core.room",
     "fields": {
       "code": "ABC2",
-      "link": "http://abc.com.br/ws/abc2",
       "counter": "10"
     }
   },
@@ -22,7 +20,6 @@
     "model": "core.room",
     "fields": {
       "code": "ABC3",
-      "link": "http://abc.com.br/ws/abc3",
       "counter": "22"
     }
   }

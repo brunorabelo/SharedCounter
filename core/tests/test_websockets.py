@@ -2,21 +2,28 @@ import json
 
 import fakeredis
 from channels.routing import URLRouter
-from django.test import TestCase, override_settings
+from django.test import TestCase, override_settings, TransactionTestCase
 
 from channels.testing import WebsocketCommunicator
 from django.urls import re_path
 from mock.mock import patch
 
 from core.consumers import CounterConsumer
+from core.models import Room
 
 
 @override_settings(
     CHANNEL_LAYERS={"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
 )
 @patch("core.services.redis_service.redis_instance", fakeredis.FakeStrictRedis())
-class Test(TestCase):
+class WebsocketTests(TransactionTestCase):
+    serialized_rollback = True
+    fixtures = ['room_testdata.json']
+
     def setUp(self):
+        super(WebsocketTests, self).setUp()
+        self.room1 = Room.objects.get(pk=1)
+        self.room2 = Room.objects.get(pk=2)
         self.application = URLRouter([
             re_path(r'ws/counter/(?P<room_name>\w+)/$', CounterConsumer.as_asgi())
         ])
@@ -95,6 +102,12 @@ class Test(TestCase):
         await communicator1.disconnect()
 
         await communicator2.disconnect()
+
+    async def test_websocket_invalid_room(self):
+        room_name = 'XXX'
+        communicator1 = WebsocketCommunicator(self.application, f"/ws/counter/{room_name}/")
+        connected, subprotocol = await communicator1.connect()
+        self.assertFalse(connected)
 
     async def _assert_received(self, communicator, expected_response):
         response = await communicator.receive_from()
