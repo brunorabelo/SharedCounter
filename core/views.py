@@ -40,11 +40,13 @@ def create_room(request):
 
 
 def room_template(request, room_name):
+    username = request.POST.get('username')
     if not room_name:
         return JsonResponse({
             "error": "No room name sent"
         })
     info = room_service.get_on_enter_room_info(room_name)
+    info['username'] = username
     json_data = {
         'result': info
     }

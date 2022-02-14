@@ -6,6 +6,7 @@
     <title>Counter Room</title>
 </head>
 <body>
+<h1>{{username}}</h1>
 <textarea id="count-log" cols="10" rows="10"></textarea><br>
 <p id="count-total">{{total}}</p><br>
 <!--    <input id="chat-message-input" type="text" size="100"><br>-->
@@ -25,6 +26,17 @@
             + '/'
         );
 
+        chatSocket.onopen = function(e) {
+            console.log(e);
+            var username = {{username}}
+            data = {
+                'event': 'user.joined',
+                'username': username
+            };
+            console.log(data)
+            chatSocket.send(JSON.stringify(data));
+        };
+
         chatSocket.onmessage = function(e) {
             console.log(e);
             const data = JSON.parse(e.data);
@@ -35,6 +47,7 @@
         };
 
         chatSocket.onclose = function(e) {
+            console.log(e)
             console.error('Chat socket closed unexpectedly');
         };
 
@@ -52,6 +65,7 @@
                 'event': 'count.inc',
                 'total': totalCount
             };
+            console.log(data)
             chatSocket.send(JSON.stringify(data));
             //messageInputDom.value = '';
         };
