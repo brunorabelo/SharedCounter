@@ -23,7 +23,6 @@ class RoomServiceTests(TestCase):
         self.room1 = Room.objects.get(pk=1)
         self.room2 = Room.objects.get(pk=2)
 
-
     @mock.patch('core.services.room_service._get_random_name', return_value='ABC4')
     def test_create_new_room_success(self, get_random_name_function):
         response = self.client.post('/counter/createroom/', {'username': 'user'})

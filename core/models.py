@@ -32,7 +32,7 @@ class Connection(models.Model):
     last_seen = models.DateTimeField(default=now)
 
     def __str__(self):
-        return str(self.user, 'connected to', self.room)
+        return f'{self.user} connected to {self.room}'
 
     def kill(self):
         self.alive = False

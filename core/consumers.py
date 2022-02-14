@@ -64,7 +64,7 @@ class CounterConsumer(AsyncWebsocketConsumer):
         elif event_type == 'user.left':
             await self._user_left(data)
         elif event_type == 'heartbeat':
-            await connection_service.touch_connection(self.connection)  # register last interaction with the ws
+            await database_sync_to_async(connection_service.touch_connection)(self.connection)  # register last interaction with the ws
 
     async def _count_inc(self, data):
         current_count = redis_service.inc_group_counter(self.room_group_name)

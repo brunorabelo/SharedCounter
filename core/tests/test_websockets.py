@@ -35,7 +35,7 @@ class WebsocketTests(TransactionTestCase):
         self.assertTrue(connected)
         await communicator.disconnect()
 
-    async def test_single_scoket_count_inc(self):
+    async def test_single_socket_count_inc(self):
         room_name = 'ABC'
         communicator = WebsocketCommunicator(self.application, f"/ws/counter/{room_name}/")
         connected, subprotocol = await communicator.connect()

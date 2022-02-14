@@ -44,7 +44,7 @@ def room_template(request, room_name):
         return JsonResponse({
             "error": "No room name sent"
         })
-    info = room_service.get_on_enter_room_info()
+    info = room_service.get_on_enter_room_info(room_name)
     json_data = {
         'result': info
     }
