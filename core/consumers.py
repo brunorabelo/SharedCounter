@@ -27,7 +27,6 @@ class CounterConsumer(AsyncWebsocketConsumer):
             return
 
         self.room_group_name = self.room.get_channel_group_name()
-
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
@@ -63,8 +62,11 @@ class CounterConsumer(AsyncWebsocketConsumer):
             await self._user_joined(data)
         elif event_type == 'user.left':
             await self._user_left(data)
+        elif event_type == 'users.list':
+            await self._send_users_list()
         elif event_type == 'heartbeat':
-            await database_sync_to_async(connection_service.touch_connection)(self.connection)  # register last interaction with the ws
+            await database_sync_to_async(connection_service.touch_connection)(
+                self.connection)  # register last interaction with the ws
 
     async def _count_inc(self, data):
         current_count = redis_service.inc_group_counter(self.room_group_name)
@@ -99,3 +101,11 @@ class CounterConsumer(AsyncWebsocketConsumer):
                 'data': data
             }
         )
+
+    async def _send_users_list(self):
+        users = await database_sync_to_async(connection_service.get_all_users_at_room)(self.room)
+        text_data = {
+            'event': 'users.list',
+            'users': users
+        }
+        await self.send(json.dumps(text_data))

@@ -8,6 +8,10 @@ urlpatterns = [
     re_path('^$', views.index, name='index'),
     path('createroom/', views.create_room, name='createroom'),
     path('room/<str:room_name>/', views.room),
-    path('template/<str:room_name>/', views.room_template, name='room'),
+
+
+    ## Teste bruto
+    path('template/<str:room_name>/<str:username>', views.room_template, name='room'),
+    path('createroom_template/', views.create_room_template, name='createroom_template'),
 
 ]

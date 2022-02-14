@@ -14,7 +14,7 @@
 </div>
 <br>
 <div>
-    <form action="{% url 'createroom' %}" method="post">
+    <form action="{% url 'createroom_template' %}" method="post">
         {% csrf_token %}
         <label for="username">Your name: </label>
         <input id="username" type="text" name="username">

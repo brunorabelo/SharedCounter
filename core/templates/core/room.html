@@ -6,17 +6,20 @@
     <title>Counter Room</title>
 </head>
 <body>
-<h1>{{username}}</h1>
-<textarea id="count-log" cols="10" rows="10"></textarea><br>
-<p id="count-total">{{total}}</p><br>
-<!--    <input id="chat-message-input" type="text" size="100"><br>-->
+<h1>Room: {{ room_name}}</h1>
+<h3>User: {{username}}</h3>
+<textarea id="count-log" cols="50" rows="10"></textarea><br>
+<p id="count-total">{{counter_total}}</p><br>
+<ul id="users">
+    Sem usuário
+</ul>
 <input id="count-up-submit" type="button" value="+" style="height:50px; width:50px;">
 
-{{ room_name|json_script:"room-name" }}
-
 <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
+        const roomName = "{{room_name}}";
+        const usersListView = document.getElementById('users');
+        var usersList = []
+        var logView = document.querySelector('#count-log')
         const totalCount =  document.getElementById('count-total').innerText;
         const chatSocket = new WebSocket(
             'ws://'
@@ -26,9 +29,28 @@
             + '/'
         );
 
+        function refreshUsersView() {
+            usersListView.innerText = ""
+            for (var i =0; i<usersList.length; i++){
+                const user = usersList[i];
+                if (user[2]=== false)
+                    continue
+                let li = document.createElement('li');
+                li.textContent = user[0]
+                usersListView.appendChild(li);
+            }
+        }
+
+        function askUserList(){
+            chatSocket.send(JSON.stringify({
+                'event': 'users.list'
+            }))
+        }
+        refreshUsersView();
+
         chatSocket.onopen = function(e) {
             console.log(e);
-            var username = {{username}}
+            var username = "{{username}}"
             data = {
                 'event': 'user.joined',
                 'username': username
@@ -38,12 +60,22 @@
         };
 
         chatSocket.onmessage = function(e) {
-            console.log(e);
             const data = JSON.parse(e.data);
             console.log(data)
-            const total = data.counter_total;
-            document.querySelector('#count-log').value += (total + '\n');
-            document.getElementById('count-total').innerText = total;
+            var event = data['event']
+            if (event === 'count.inc'){
+                const total = data.counter_total;
+                document.querySelector('#count-log').value += (total + '\n');
+                document.getElementById('count-total').innerText = total;
+            }
+            else if(event === 'user.joined'){
+            logView.value += data.username + " entrou\n"
+            askUserList()
+            }
+            else if(event === 'users.list'){
+                usersList=data.users
+                refreshUsersView();
+            }
         };
 
         chatSocket.onclose = function(e) {
@@ -69,6 +101,8 @@
             chatSocket.send(JSON.stringify(data));
             //messageInputDom.value = '';
         };
+
+
 
 </script>
 </body>

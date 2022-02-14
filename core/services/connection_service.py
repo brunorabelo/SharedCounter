@@ -24,3 +24,8 @@ def set_username_connection(conn: Connection, username: str) -> None:
 
 def touch_connection(conn: Connection) -> None:
     conn.touch()
+
+
+def get_all_users_at_room(room: Room) -> list:
+    users = list(Connection.objects.filter(room=room).values_list('user', 'alive'))
+    return users

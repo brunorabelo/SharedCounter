@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 import uuid
 # Create your views here.
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from core.services import room_service
@@ -39,8 +39,7 @@ def create_room(request):
         return JsonResponse({'error': str(e)})
 
 
-def room_template(request, room_name):
-    username = request.POST.get('username')
+def room_template(request, room_name, username):
     if not room_name:
         return JsonResponse({
             "error": "No room name sent"
@@ -52,3 +51,14 @@ def room_template(request, room_name):
     }
 
     return render(request=request, context=json_data['result'], template_name='core/room.html')
+
+
+def create_room_template(request):
+    username = request.POST.get('username')
+    try:
+        room_info = room_service.create_new_room()
+
+        response = redirect('room', room_name=room_info['room_name'], username=username)
+        return response
+    except Exception as e:
+        return JsonResponse({'error': str(e)})
