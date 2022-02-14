@@ -35,6 +35,7 @@ class CounterConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         await database_sync_to_async(connection_service.kill_connection)(self.connection)
+        await self._user_left()
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -60,8 +61,6 @@ class CounterConsumer(AsyncWebsocketConsumer):
             await self._count_inc(data)
         elif event_type == 'user.joined':
             await self._user_joined(data)
-        elif event_type == 'user.left':
-            await self._user_left(data)
         elif event_type == 'users.list':
             await self._send_users_list()
         elif event_type == 'heartbeat':
@@ -71,7 +70,7 @@ class CounterConsumer(AsyncWebsocketConsumer):
     async def _count_inc(self, data):
         current_count = redis_service.inc_group_counter(self.room_group_name)
         return_data = {
-            'type': data.get('event'),
+            'event': data.get('event'),
             'counter_total': current_count
         }
         await self.channel_layer.group_send(
@@ -91,9 +90,26 @@ class CounterConsumer(AsyncWebsocketConsumer):
                 'data': data
             }
         )
+        await self._send_group_user_list()
 
-    async def _user_left(self, data):
+    async def _user_left(self):
+        data = {'event': 'user.left', 'username': self.connection.user}
         await database_sync_to_async(connection_service.kill_connection)(self.connection)
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'echo.data',
+                'data': data
+            }
+        )
+        await self._send_group_user_list()
+
+    async def _send_group_user_list(self):
+        users = await database_sync_to_async(connection_service.get_all_users_at_room)(self.room)
+        data = {
+            'event': 'users.list',
+            'users': users
+        }
         await self.channel_layer.group_send(
             self.room_group_name,
             {
