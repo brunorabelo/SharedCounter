@@ -45,7 +45,7 @@ class WebsocketTests(TransactionTestCase):
             'total': 0
         }
         expected_response = {
-            'type': 'count.inc',
+            'event': 'count.inc',
             'counter_total': 1
         }
         # confirma envio de evento e recebimento de resposta
@@ -53,7 +53,7 @@ class WebsocketTests(TransactionTestCase):
 
         data['total'] = 1
         expected_response = {
-            'type': 'count.inc',
+            'event': 'count.inc',
             'counter_total': 2
         }
         # confirma envio de evento e recebimento de resposta
@@ -77,7 +77,7 @@ class WebsocketTests(TransactionTestCase):
             'total': 0
         }
         expected_response = {
-            'type': 'count.inc',
+            'event': 'count.inc',
             'counter_total': 1
         }
         # websocket1 tem que receber
@@ -89,7 +89,7 @@ class WebsocketTests(TransactionTestCase):
         # Simula o envio pelo websocket2 agora
         data1['total'] = 1
         expected_response = {
-            'type': 'count.inc',
+            'event': 'count.inc',
             'counter_total': 2
         }
         # Websocket2 tem que receber
