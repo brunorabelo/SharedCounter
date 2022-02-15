@@ -1,20 +1,97 @@
-<!-- chat/templates/chat/room.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
-    <title>Counter Room</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Room {{room_name}} - Shared Counter</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+      * {
+        /* Reset browser's padding and margin */
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .my-button {
+        width: 100px;
+        height: 100px;
+        border: none;
+        border-radius: 100px;
+        outline: none;
+        background: #00d1b2;
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+      .my-button:hover {
+        background: darkblue;
+      }
+
+
+
+
+
+
+    </style>
 </head>
 <body>
-<h1>Room: {{ room_name}}</h1>
-<h3>User: {{username}}</h3>
-<textarea id="count-log" cols="50" rows="10"></textarea><br>
-<p id="count-total">{{counter_total}}</p><br>
-<ul id="users">
-    Sem usuário
-</ul>
-<input id="count-up-submit" type="button" value="+" style="height:50px; width:50px;">
 
+{% include 'core/navbar.html' %}
+
+
+<div id='register' class="container mt-6 pt-6">
+    <div class="columns is-centered">
+        <div class="column"></div>
+        <div class="column is-half">
+            <div class="card">
+                <div class="card-content">
+                    <p class="title has-text-centered">
+                        Sala: {{ room_name}}
+                    </p>
+                    <p class="subtitle">
+                        User: {{username}}
+                    </p>
+                    <div class="box">
+                        <div class="field">
+                            <label class="label">Logs</label>
+                            <div class="control">
+                                <textarea class="textarea" id="count-log" cols="50" rows="10"></textarea>
+                            </div>
+                            </br>
+                            <p class="title has-text-centered">
+                                Contador: <span id="count-total">{{ counter_total}}</span>
+                            </p>
+                        </div>
+                        </br>
+                        <div class='container'>
+                        <div class="columns is-centered">
+                            <div class="column is-half">
+                                <div class="content has-text-centered">
+                                    <button class="my-button" id="count-up-submit">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="content">
+                <p class="title">Lista de usuários</p>
+                <ul id="users" class>
+                    Sem usuário
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src=
+                "https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+</script>
 <script>
         const roomName = "{{room_name}}";
         const usersListView = document.getElementById('users');
@@ -28,6 +105,7 @@
             + roomName
             + '/'
         );
+
 
         function refreshUsersView() {
             usersListView.innerText = ""
@@ -75,6 +153,8 @@
                 usersList=data.users
                 refreshUsersView();
             }
+
+            logView.scrollTop = logView.scrollHeight 
         };
 
         chatSocket.onclose = function(e) {
@@ -82,24 +162,20 @@
             console.error('Chat socket closed unexpectedly');
         };
 
-        // document.querySelector('#chat-message-input').focus();
-        // document.querySelector('#chat-message-input').onkeyup = function(e) {
-           // if (e.keyCode === 13) {  // enter, return
-             //   document.querySelector('#chat-message-submit').click();
-           // }
-        //};
-
         document.querySelector('#count-up-submit').onclick = function(e) {
-            //const messageInputDom = document.querySelector('#chat-message-input');
-            //const message = messageInputDom.value;
             data = {
                 'event': 'count.inc',
                 'total': totalCount
             };
             console.log(data)
             chatSocket.send(JSON.stringify(data));
-            //messageInputDom.value = '';
         };
+
+
+
+
+
+
 
 
 

@@ -7,40 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 <body>
-<nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-            <!--      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">-->
-            SharedCounter
-        </a>
-
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-    </div>
-
-    <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item" href="/">
-                Home
-            </a>
-
-        </div>
-
-        <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="buttons">
-                    <a class="button is-primary" href="/admin">
-                        <strong>Admin</strong>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
-
+{% include 'core/navbar.html' %}
 <div id='register' class="container mt-6 pt-6">
     <div class="columns is-centered">
         <div class="column is-half">
