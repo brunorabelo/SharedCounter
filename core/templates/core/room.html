@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Room {{room_name}} - Shared Counter</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
       * {
         /* Reset browser's padding and margin */
@@ -30,6 +31,9 @@
       }
 
 
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color:  hsl(171, 100%, 41%)	}
+.material-icons.md-dark.md-inactive { color: hsl(171, 100%, 41%)	}
 
 
 
@@ -84,7 +88,15 @@
                 <ul id="users" class>
                     Sem usuário
                 </ul>
+
             </div>
+            <hr>
+            <div class="content">
+                <p class="title">Sharing</p><div onclick="share()">
+                <span class="material-icons md-dark">send</span></div>
+
+            </div>
+            
         </div>
     </div>
 </div>
@@ -94,7 +106,8 @@
                 "https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
 </script>
 <script>
-        const roomName = "{{room_name}}";
+        
+        var roomName = "{{room_name}}";
         const usersListView = document.getElementById('users');
         var usersList = []
         var logView = document.querySelector('#count-log')
@@ -107,6 +120,22 @@
             + '/'
         );
 
+
+        function share(){
+            const url =  "{{ request.scheme }}://{{ request.get_host }}{% url 'room_no_username' room_name='roomName'  %}".replace("roomName", roomName)
+            console.log(url)
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Shared Counter',
+                    text: 'Help me to count',
+                    url: url,
+                })
+                .then(() => console.log('Successful share'))
+                .catch((error) => console.log('Error sharing', error));
+            } else {
+                console.log('Share not supported on this browser, do it the old way.');
+            }
+        }
 
         function refreshUsersView() {
             usersListView.innerText = ""

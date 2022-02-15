@@ -12,6 +12,7 @@ urlpatterns = [
 
     ## Teste bruto
     path('template/<str:room_name>/<str:username>', views.room_template, name='room_template'),
+    path('template/<str:room_name>/', views.index, name='room_no_username'),
     # path('createroom_template/', views.create_room_template, name='createroom_template'),
 
 ]

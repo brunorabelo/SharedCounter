@@ -7,8 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from core.services import room_service
 
 
-def index(request):
-    return render(request, 'core/index.html')
+def index(request, room_name=None):
+    return render(request, context={"room_name": room_name or ""}, template_name='core/index.html')
 
 
 @csrf_exempt
@@ -39,7 +39,7 @@ def create_room(request):
         return JsonResponse({'error': str(e)})
 
 
-def room_template(request, room_name, username):
+def room_template(request, room_name, username=""):
     if not room_name:
         return JsonResponse({
             "error": "No room name sent"
