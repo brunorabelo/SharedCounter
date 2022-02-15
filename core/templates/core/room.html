@@ -6,6 +6,7 @@
     <title>Room {{room_name}} - Shared Counter</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <style>
       * {
         /* Reset browser's padding and margin */
@@ -92,11 +93,18 @@
             </div>
             <hr>
             <div class="content">
-                <p class="title">Sharing</p><div onclick="share()">
+                <p class="title">Sharing</p>
+                <p class="subtitle">Link</p>
+                <div onclick="share()">
+                    
                 <span class="material-icons md-dark">send</span></div>
 
             </div>
-            
+            <div class="content">
+                <p class="subtitle">QR Code</p>
+                <div id="qrcode">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -112,6 +120,10 @@
         var usersList = []
         var logView = document.querySelector('#count-log')
         const totalCount =  document.getElementById('count-total').innerText;
+
+        const urlShare =  "{{ request.scheme }}://{{ request.get_host }}{% url 'room_no_username' room_name='roomName'  %}".replace("roomName", roomName)
+
+
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -122,13 +134,12 @@
 
 
         function share(){
-            const url =  "{{ request.scheme }}://{{ request.get_host }}{% url 'room_no_username' room_name='roomName'  %}".replace("roomName", roomName)
-            console.log(url)
+            console.log(urlShare)
             if (navigator.share) {
                 navigator.share({
                     title: 'Shared Counter',
                     text: 'Help me to count',
-                    url: url,
+                    url: urlShare,
                 })
                 .then(() => console.log('Successful share'))
                 .catch((error) => console.log('Error sharing', error));
@@ -136,6 +147,8 @@
                 console.log('Share not supported on this browser, do it the old way.');
             }
         }
+
+        new QRCode(document.getElementById("qrcode"), urlShare);
 
         function refreshUsersView() {
             usersListView.innerText = ""
