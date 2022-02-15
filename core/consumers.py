@@ -1,11 +1,12 @@
 # chat/consumers.py
 import json
 
+import django
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 from core.services import redis_service, room_service, connection_service
-
+django.setup()
 
 class CounterConsumer(AsyncWebsocketConsumer):
     def __init__(self):
