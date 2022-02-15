@@ -53,12 +53,11 @@ def room_template(request, room_name, username):
     return render(request=request, context=json_data['result'], template_name='core/room.html')
 
 
-def create_room_template(request):
-    username = request.POST.get('username')
-    try:
-        room_info = room_service.create_new_room()
-
-        response = redirect('room', room_name=room_info['room_name'], username=username)
-        return response
-    except Exception as e:
-        return JsonResponse({'error': str(e)})
+# def create_room_template(request):
+#     try:
+#         room_info = room_service.create_new_room()
+#
+#         response = redirect('room', room_name=room_info['room_name'])
+#         return response
+#     except Exception as e:
+#         return JsonResponse({'error': str(e)})

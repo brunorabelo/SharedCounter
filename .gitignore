@@ -8,3 +8,4 @@ tasks
 docker/config/.env.dev
 appcounter/settings/.env
 .coverage
+appcounter/staticfiles
