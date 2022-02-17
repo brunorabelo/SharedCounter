@@ -29,7 +29,7 @@ import { RouterLink, RouterView } from "vue-router";
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <a class="is-primary button" href="http://localhost:8000/admin"
+                <a class="is-primary button" href="/admin"
                   ><strong>Admin</strong></a
                 >
               </div>
