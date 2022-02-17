@@ -21,7 +21,7 @@
                   href="https://www.linkedin.com/in/brunorabelow/"
                   target="_blank"
                 >
-                  <span class="icon has-text-info">
+                  <span class="icon">
                     <i class="fab fa-linkedin fa-lg"></i>
                   </span>
                 </a>

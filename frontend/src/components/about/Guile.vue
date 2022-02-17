@@ -21,7 +21,7 @@
                   href="https://www.linkedin.com/in/guilevieiram/"
                   target="_blank"
                 >
-                  <span class="icon has-text-">
+                  <span class="icon">
                     <i class="fab fa-linkedin fa-lg"></i>
                   </span>
                 </a>
