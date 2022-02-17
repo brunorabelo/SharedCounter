@@ -32,7 +32,8 @@ services:
       retries: 5
   nginx:
     build:
-      context: ../nginx/.
+      context: ../../.
+      dockerfile: docker/nginx/Dockerfile
       cache_from:
         - "${LATEST_NGINX_IMAGE_TAG}"
     image: "${COMMIT_NGINX_IMAGE_TAG}"
