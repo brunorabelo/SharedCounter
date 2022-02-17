@@ -99,7 +99,7 @@ export default {
       modalActive: false,
       username: localStorage.username || "",
       action: -1,
-      roomName: "7A49B3",
+      roomName: "",
       loading: false,
     };
   },
