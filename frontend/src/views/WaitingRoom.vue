@@ -8,7 +8,7 @@
               <p class="title has-text-centered">SHARED COUNTER</p>
               <div class="box">
                 <div class="field">
-                  <label class="label">Sala</label>
+                  <label class="label">Room code</label>
                   <div class="control">
                     <input
                       class="input"
@@ -20,7 +20,7 @@
                   </div>
                 </div>
                 <button class="button is-primary" v-on:click="enterRoomClick()">
-                  Entrar na sala
+                  Enter room
                 </button>
                 <br />
                 <br />
@@ -28,7 +28,7 @@
                   class="button is-secondary"
                   v-on:click="createRoomClick()"
                 >
-                  Criar Sala
+                  Create room
                 </button>
               </div>
             </div>
@@ -46,7 +46,7 @@
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">
-            Entrando na sala
+            {{ action === 1 ? "Creating room" : "Entering in room " }}
             {{ roomName }}
           </p>
           <button

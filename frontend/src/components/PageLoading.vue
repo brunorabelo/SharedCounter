@@ -1,5 +1,5 @@
 <template>
-  <div class="hero is-fullheight is-success">
+  <div class="hero is-fullheight-with-navbar is-success">
     <div class="hero-body">
       <div class="container">
         <div class="columns is-centered">

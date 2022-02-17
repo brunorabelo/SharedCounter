@@ -1,13 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 </script>
-
 <template>
   <header>
     <div>
       <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <a class="navbar-item"> VueDjango </a>
+          <a class="navbar-item" href="/"> SharedCounter </a>
 
           <a
             role="button"
@@ -25,6 +24,9 @@ import { RouterLink, RouterView } from "vue-router";
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
             <RouterLink class="navbar-item" to="/">Home</RouterLink>
+            <RouterLink class="navbar-item" :to="{ name: 'about' }"
+              >About us</RouterLink
+            >
           </div>
           <div class="navbar-end">
             <div class="navbar-item">
@@ -44,4 +46,5 @@ import { RouterLink, RouterView } from "vue-router";
 
 <style>
 @import "bulma/css/bulma.css";
+@import "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css";
 </style>

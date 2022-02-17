@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="status" :class="{ connected: 'connected' }">
-      {{ connected ? "connectado" : "desconectado" }}
+      {{ connected ? "Connected" : "Disconnected" }}
     </div>
 
     <div v-if="connected" id="register" class="container mt-6 pt-6">
@@ -10,14 +10,14 @@
         <div class="column is-half">
           <div class="card">
             <div class="card-content">
-              <p class="title has-text-centered">Sala: {{ roomName }}</p>
+              <p class="title has-text-centered">Room: {{ roomName }}</p>
               <p class="subtitle">User: {{ username }}</p>
               <div class="box">
                 <div class="field">
                   <log-viewer :messages="logMessage" />
                   <br />
                   <p class="title has-text-centered">
-                    Contador: <span id="count-total">{{ count }}</span>
+                    Counter: <span id="count-total">{{ count }}</span>
                   </p>
                 </div>
                 <br />
@@ -28,7 +28,7 @@
         </div>
         <div class="column">
           <div class="content">
-            <p class="title">Lista de usuários</p>
+            <p class="title">User list</p>
 
             <ul>
               <li :key="idx" v-for="(user, idx) in activeUsers">
