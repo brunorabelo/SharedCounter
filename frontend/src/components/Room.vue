@@ -64,14 +64,15 @@ export default {
     wsLink: { type: String, default: "" },
     username: { type: String, default: "" },
     roomName: { type: String, default: "" },
+    initialCount: { type: Number, default: 0 },
   },
   data() {
     return {
       connection: null,
       logMessage: "",
-      count: 0,
       usersList: [],
       connected: false,
+      count: this.initialCount,
     };
   },
   computed: {

@@ -4,7 +4,12 @@
       <PageLoading />
     </div>
     <div v-else>
-      <Room :ws-link="wsLink" :room-name="roomName" :username="username" />
+      <Room
+        :ws-link="wsLink"
+        :room-name="roomName"
+        :username="username"
+        :initial-count="initialCount"
+      />
     </div>
   </main>
 </template>
@@ -25,6 +30,7 @@ export default {
       roomName: "",
       loading: false,
       wsLink: "",
+      initialcount: 0,
     };
   },
   methods: {
@@ -38,6 +44,7 @@ export default {
         .then((data) => {
           this.wsLink = data.result.ws_link;
           this.loading = false;
+          this.initialCount = data.result.counter_total;
           console.log(this.wsLink);
         })
         .catch();

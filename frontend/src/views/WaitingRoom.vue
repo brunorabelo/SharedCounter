@@ -15,6 +15,7 @@
                       v-model="roomName"
                       type="name"
                       placeholder="ABC123"
+                      @keyup.enter="enterRoomClick()"
                     />
                   </div>
                 </div>
