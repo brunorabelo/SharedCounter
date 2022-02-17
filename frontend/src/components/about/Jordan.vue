@@ -13,16 +13,16 @@
 
             <div class="content t-2">
               <div class="media-content">
-                <p class="is-primary">
-                  Responsible for the application Backend
+                <p class="is-primary p-3">
+                  Responsible for the application backend
                 </p>
-                <p><strong>Software Enginner</strong></p>
+
                 <a
                   class="button"
                   href="https://www.linkedin.com/in/caio-azevedo-tone/"
                   target="_blank"
                 >
-                  <span class="icon">
+                  <span class="icon has-text-info">
                     <i class="fab fa-linkedin fa-lg"></i>
                   </span>
                 </a>

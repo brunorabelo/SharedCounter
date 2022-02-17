@@ -3,7 +3,7 @@
     <div class="columns is-mobile is-centered">
       <div class="column">
         <div class="card">
-          <div class="card-image">
+          <div class="card-image has-shadow">
             <figure class="image is-256x256 p-6">
               <img src="@/assets/images/bruno.png" />
             </figure>
@@ -16,13 +16,12 @@
                 <p class="is-primary">
                   Responsible for the application Backend and DevOps
                 </p>
-                <p><strong>Software Enginner</strong></p>
                 <a
                   class="button"
                   href="https://www.linkedin.com/in/brunorabelow/"
                   target="_blank"
                 >
-                  <span class="icon">
+                  <span class="icon has-text-info">
                     <i class="fab fa-linkedin fa-lg"></i>
                   </span>
                 </a>
@@ -40,3 +39,6 @@ export default {
   setup() {},
 };
 </script>
+
+<style >
+</style>

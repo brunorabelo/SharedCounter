@@ -16,13 +16,12 @@
                 <p class="is-primary">
                   Responsible for the application Mobile app and Design
                 </p>
-                <p><strong>Software Enginner</strong></p>
                 <a
                   class="button"
                   href="https://www.linkedin.com/in/guilevieiram/"
                   target="_blank"
                 >
-                  <span class="icon">
+                  <span class="icon has-text-">
                     <i class="fab fa-linkedin fa-lg"></i>
                   </span>
                 </a>
