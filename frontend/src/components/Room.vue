@@ -158,6 +158,10 @@ export default {
       this.logMessage += message + "\n";
     },
   },
+  unmounted() {
+    this.connection && this.connection.close();
+    this.connected = false;
+  },
 };
 </script>
 
