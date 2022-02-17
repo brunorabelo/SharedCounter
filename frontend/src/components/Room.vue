@@ -148,6 +148,11 @@ export default {
         "Closing socket"
       );
       this.connection.close();
+
+      this.connected = false;
+      setTimeout(function () {
+        this.connect();
+      }, 1000);
     },
     log(message) {
       this.logMessage += message + "\n";
