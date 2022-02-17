@@ -25,20 +25,20 @@ class RoomServiceTests(TestCase):
 
     @mock.patch('core.services.room_service._get_random_name', return_value='ABC4')
     def test_create_new_room_success(self, get_random_name_function):
-        response = self.client.post('/counter/createroom/', {'username': 'user'})
+        response = self.client.post('/api/createroom/', {'username': 'user'})
         self.assertEqual(response.status_code, 200)
         json_data = json.loads(response.content)
         self.assertIn('result', json_data)
 
         result = json_data.get('result')
         self.assertCountEqual(['room_name', 'ws_link', 'room_link', 'counter_total'], list(result.keys()))
-        self.assertEqual(f'http://{settings.BASE_URL}/counter/room/ABC4', result['room_link'])
-        self.assertEqual(f'ws://{settings.BASE_URL}/ws/counter/ABC4', result['ws_link'])
+        self.assertEqual(f'http://{settings.BASE_URL}/api/room/ABC4/', result['room_link'])
+        self.assertEqual(f'ws://{settings.BASE_URL}/ws/counter/ABC4/', result['ws_link'])
         self.assertEqual('ABC4', result['room_name'])
 
     @mock.patch('core.services.room_service._get_random_name', return_value='ABC3')
     def test_create_new_room_repeated_name(self, get_random_name_function):
-        response = self.client.post('/counter/createroom/', {'username': 'user'})
+        response = self.client.post('/api/createroom/', {'username': 'user'})
         self.assertEqual(response.status_code, 200)
         json_data = json.loads(response.content)
         self.assertIn('error', json_data)
@@ -48,7 +48,7 @@ class RoomServiceTests(TestCase):
         room_name = 'ABC'
         initial_count = 5
         redis_service.set_or_reset_redis_group(room_name, count=initial_count)
-        response = self.client.post(f'/counter/room/{room_name}/', {'username': 'user'})
+        response = self.client.post(f'/api/room/{room_name}/', {'username': 'user'})
         self.assertEqual(response.status_code, 200)
         json_data = json.loads(response.content)
         self.assertIn('result', json_data)
