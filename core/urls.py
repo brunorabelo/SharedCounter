@@ -8,6 +8,7 @@ urlpatterns = [
     re_path('^$', views.index, name='index'),
     path('createroom/', views.create_room, name='createroom'),
     path('room/<str:room_name>/', views.room, name='room'),
-    path('apple-app-site-association', views.apple_verification)
+    path('apple-app-site-association', views.apple_verification),
+    path('assetlinks.json', views.android_verification)
 
 ]
