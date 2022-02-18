@@ -104,6 +104,14 @@ export default {
       loading: false,
     };
   },
+  mounted() {
+    debugger;
+    const paramsRoomName = this.$route.params.roomName;
+    if (paramsRoomName) {
+      this.roomName = paramsRoomName;
+      this.enterRoomClick();
+    }
+  },
   methods: {
     showModal() {
       this.modalActive = true;
@@ -154,7 +162,6 @@ export default {
       }
     },
   },
-  mounted() {},
 };
 </script>
 
