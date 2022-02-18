@@ -105,7 +105,6 @@ export default {
     };
   },
   mounted() {
-    debugger;
     const paramsRoomName = this.$route.params.roomName;
     if (paramsRoomName) {
       this.roomName = paramsRoomName;

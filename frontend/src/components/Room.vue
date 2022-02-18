@@ -39,14 +39,15 @@
           <hr />
           <div class="content">
             <p class="title">Sharing</p>
-            <p class="subtitle">Link</p>
-            <div onclick="share()">
-              <span class="material-icons md-dark">send</span>
-            </div>
+            <p class="subtitle">Link:</p>
+            <button class="button" @click="share()">
+              <i class="far fa-share-square"></i>
+            </button>
           </div>
+
           <div class="content">
             <p class="subtitle">QR Code</p>
-            <div id="qrcode"></div>
+            <qrcode-vue :value="getUrlToShare()" level="H" size="200" />
           </div>
         </div>
       </div>
@@ -54,12 +55,12 @@
   </div>
 </template>
 
-
 <script>
 import IncCounter from "./IncCounter.vue";
 import LogViewer from "./LogViewer.vue";
+import QrcodeVue from "qrcode.vue";
 export default {
-  components: { LogViewer, IncCounter },
+  components: { LogViewer, IncCounter, QrcodeVue },
   props: {
     wsLink: { type: String, default: "" },
     username: { type: String, default: "" },
@@ -157,6 +158,34 @@ export default {
     },
     log(message) {
       this.logMessage += message + "\n";
+    },
+    getUrlToShare() {
+      const urlShare = this.$router.resolve({
+        name: "enter-room",
+        params: { roomName: this.roomName },
+      });
+      const absoluteURL = new URL(urlShare.href, window.location.href).href;
+      return absoluteURL;
+    },
+    share() {
+      urlShare = this.getUrlToShare();
+      console.log(absoluteURL);
+      debugger;
+      if (navigator.share) {
+        navigator
+          .share({
+            title: "Shared Counter",
+            text: "Help me to count",
+            url: urlShare,
+          })
+          .then(() => console.log("Successful share"))
+          .catch((error) => console.log("Error sharing", error));
+      } else {
+        console.log("Share not supported on this browser, do it the old way.");
+      }
+    },
+    qrCode() {
+      new QRCode(document.getElementById("qrcode"), this.getUrlToShare());
     },
   },
   unmounted() {
