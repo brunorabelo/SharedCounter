@@ -11,6 +11,20 @@ def index(request, room_name=None):
     return render(request, context={"room_name": room_name or ""}, template_name='core/index.html')
 
 
+def apple_verification(request):
+    appId = "LKWJEF.io.myapp.example"
+    paths = ["/enter-room/*"]
+    return JsonResponse({
+        "applinks": {
+            "apps": [],
+            "details": [{
+                "appID": appId,
+                "paths": paths
+            }]
+        }
+    })
+
+
 @csrf_exempt
 def room(request, room_name):
     if not room_name:
@@ -51,7 +65,6 @@ def room_template(request, room_name, username=""):
     }
 
     return render(request=request, context=json_data['result'], template_name='core/room.html')
-
 
 # def create_room_template(request):
 #     try:

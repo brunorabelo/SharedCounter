@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/', include('core.urls')),
     # path('', include('core.urls')),
     path('admin/', admin.site.urls),
+    path('.well-know/', include('core.urls'))
 ]
