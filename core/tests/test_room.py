@@ -32,8 +32,8 @@ class RoomServiceTests(TestCase):
 
         result = json_data.get('result')
         self.assertCountEqual(['room_name', 'ws_link', 'room_link', 'counter_total'], list(result.keys()))
-        self.assertEqual(f'http://{settings.BASE_URL}/api/room/ABC4/', result['room_link'])
-        self.assertEqual(f'ws://{settings.BASE_URL}/ws/counter/ABC4/', result['ws_link'])
+        self.assertEqual(f'https://{settings.BASE_URL}/api/room/ABC4/', result['room_link'])
+        self.assertEqual(f'wss://{settings.BASE_URL}/ws/counter/ABC4/', result['ws_link'])
         self.assertEqual('ABC4', result['room_name'])
 
     @mock.patch('core.services.room_service._get_random_name', return_value='ABC3')
