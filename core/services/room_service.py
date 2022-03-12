@@ -2,7 +2,6 @@ import uuid
 from core.models import Room, Connection
 from . import redis_service
 
-BASE_URL = '3.13.147.30'
 MAX_ATTEMPTS = 5
 
 

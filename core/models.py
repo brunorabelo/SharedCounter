@@ -15,10 +15,10 @@ class Room(models.Model):
         return self.code
 
     def get_websocket_link(self):
-        return f'ws://{settings.BASE_URL}/ws/counter/{self.code}/'
+        return f'wss://{settings.BASE_URL}/ws/counter/{self.code}/'
 
     def get_room_link(self):
-        return f'http://{settings.BASE_URL}/api/room/{self.code}/'
+        return f'https://{settings.BASE_URL}/api/room/{self.code}/'
 
     def get_channel_group_name(self):
         return f'counter_{self.code}'
