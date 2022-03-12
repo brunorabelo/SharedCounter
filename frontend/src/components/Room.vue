@@ -140,7 +140,7 @@ export default {
         e.reason
       );
       setTimeout(function () {
-        this.connect();
+        this.connectWs();
       }, 1000);
     },
     onError(err) {
