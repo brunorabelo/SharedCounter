@@ -2,6 +2,7 @@ import functools
 
 import redis
 from django.conf import settings
+from django.dispatch import receiver
 
 redis_instance = redis.StrictRedis(host=settings.REDIS_HOST,
                                    port=settings.REDIS_PORT, db=0)
@@ -35,3 +36,8 @@ def inc_group_counter(room_name: str) -> int:
 @redis_group_name
 def set_or_reset_redis_group(room_name: str, *, count: int = 0) -> None:
     redis_instance.set(room_name, count)
+
+
+@redis_group_name
+def delete_group(room_name: str):
+    redis_instance.delete(room_name)

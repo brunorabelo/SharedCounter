@@ -26,7 +26,7 @@ DEBUG = int(os.environ.get("DEBUG", "0"))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(" ")
 
-BASE_URL = os.environ.get("BASE_URL", "3.13.147.30")
+BASE_URL = os.environ.get("BASE_URL", "sharedcounter.pt")
 CSRF_TRUSTED_ORIGINS=['https://*.sharedcounter.pt']
 # Application definition
 

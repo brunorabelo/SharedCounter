@@ -1,4 +1,8 @@
 import uuid
+
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+
 from core.models import Room, Connection
 from . import redis_service
 
@@ -55,3 +59,9 @@ def get_on_enter_room_info(room_name) -> dict:
 
 def get_room_count(room_name) -> int:
     return redis_service.get_group_count(room_name) or 0
+
+
+# TODO remover room do redis ao deletar um room
+@receiver(post_delete, sender=Room)
+def clear_room_redis(sender, instance, **kwargs):
+    redis_service.delete_group(instance.code)
