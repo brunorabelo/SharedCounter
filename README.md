@@ -18,7 +18,7 @@ Technologies:
 - postgres
 
 The application was deployed at AWS EC2 running in a docker-compose environment.
-It is used a CI-CD pipeline to deploy the application and to test it.
+It uses a gitlab CI-CD pipeline to deploy the application and to test it.
 
 ## Extra:
 There is also a mobile version built in React Native at https://github.com/guilevieiram/shared_count
