@@ -34,3 +34,9 @@ Run:
 ```
 docker-compose -f docker/compose/docker-compose.yml up --build
 ```
+
+## Future
+- [] More tests with the websockets
+- [] Persistence of the redis data
+- [] Creation of room customazaions
+- [] User login
